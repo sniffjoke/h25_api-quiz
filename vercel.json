@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "h22-api-v4-postgres-nest-v2",
+  "name": "h25_api-quiz",
   "builds": [
     { "src": "src/main.ts", "use": "@vercel/node" }
   ],
