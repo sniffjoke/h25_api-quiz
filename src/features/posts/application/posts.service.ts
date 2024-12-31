@@ -101,12 +101,12 @@ export class PostsService {
 
 }
 
-// async updatePost(id: string, dto: PostCreateModel) {
+// async updatePost(id: string, models: PostCreateModel) {
 // const post = await this.postModel.findOne({_id: id})
 // if (!post) {
 //     throw new NotFoundException(`Post with id ${id} not found`)
 // }
-// const updatePost = await this.postsRepository.updatePost(post.id, dto)
+// const updatePost = await this.postsRepository.updatePost(post.id, models)
 // return updatePost
 // }
 

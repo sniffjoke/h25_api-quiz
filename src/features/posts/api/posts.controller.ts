@@ -45,8 +45,8 @@ export class PostsController {
 
   // @Post('sa/posts')
   // @UseGuards(BasicAuthGuard)
-  // async createPost(@Body() dto: PostCreateModel, @Req() req: Request) {
-  //   const postId = await this.commandBus.execute(new CreatePostCommand(dto));
+  // async createPost(@Body() models: PostCreateModel, @Req() req: Request) {
+  //   const postId = await this.commandBus.execute(new CreatePostCommand(models));
   //   const newPost = await this.postsQueryRepository.postOutput(postId);
   //   const postWithDetails = await this.postsService.generateOnePostWithLikesDetails(newPost, req.headers.authorization as string)
   //   return newPost;

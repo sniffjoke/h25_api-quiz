@@ -14,6 +14,7 @@ import { Environments } from './core/settings/env/env-settings';
 import  { TypeOrmConfigService } from './core/settings/database.config';
 import { MailSendModule } from './core/settings/mailer.module';
 import configuration, { validate } from './core/settings/env/configuration';
+import { QuizModule } from './features/quiz/quiz.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import configuration, { validate } from './core/settings/env/configuration';
     AuthModule,
     TokensModule,
     DevicesModule,
+    QuizModule
   ],
   controllers: [],
   providers: [

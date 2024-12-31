@@ -112,8 +112,8 @@ export class AuthController {
 
   // @Post('password-recovery')
   // @HttpCode(204)
-  // async passwordRecovery(@Body() dto: PasswordRecoveryDto) {
-  //   return await this.usersService.passwordRecovery(dto.email);
+  // async passwordRecovery(@Body() models: PasswordRecoveryDto) {
+  //   return await this.usersService.passwordRecovery(models.email);
   // }
   //
   // @Post('new-password')
