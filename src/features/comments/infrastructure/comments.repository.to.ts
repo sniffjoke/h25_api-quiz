@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CommentCreateModel } from '../api/models/input/create-comment.input.model';
-import { PostEntity } from '../../posts/domain/posts.entity';
-import { ExtendedLikesInfoEntity } from '../../posts/domain/extended-likes-info.entity';
 import { CommentEntity } from '../domain/comment.entity';
 import { LikesInfoEntity } from '../domain/likes-info.entity';
 

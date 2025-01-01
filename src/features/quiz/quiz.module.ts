@@ -8,14 +8,18 @@ import { PlayerProgressEntity } from './domain/player-progress.entity';
 import { AnswerEntity } from './domain/answer.entity';
 import { QuestionEntity } from './domain/question.entity';
 import { QuizQueryRepositoryTO } from './infrastructure/quiz.query-repository.to';
+import { QuizRepositoryTO } from './infrastructure/quiz.repository.to';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity, GamePairEntity, PlayerProgressEntity, QuestionEntity, AnswerEntity]),
+    UsersModule
   ],
   controllers: [QuizController],
   providers: [
     QuizQueryRepositoryTO,
+    QuizRepositoryTO,
     QuizService
   ],
   exports: [

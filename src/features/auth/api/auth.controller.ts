@@ -5,10 +5,8 @@ import {
   LoginDto,
   ResendActivateCodeDto,
 } from './models/input/auth.input.model';
-import { ThrottlerGuard } from '@nestjs/throttler';
 import { UserAgent } from '../../../core/decorators/common/user-agent.decorator';
 import { CreateUserDto } from '../../users/api/models/input/create-user.dto';
-import { UsersQueryRepository } from '../../users/infrastructure/users.query-repositories';
 import { JwtAuthGuard } from '../../../core/guards/jwt-auth.guard';
 import { CreateUserCommand } from '../../users/application/useCases/create-user.use-case';
 import { CommandBus } from '@nestjs/cqrs';

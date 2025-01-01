@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { AnswerStatuses } from '../api/models/input/create-pairs-status.input.model';
 import { QuestionEntity } from './question.entity';
 import { PlayerProgressEntity } from './player-progress.entity';
@@ -6,11 +6,12 @@ import { PlayerProgressEntity } from './player-progress.entity';
 
 @Entity('answer')
 export class AnswerEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
+
+  @PrimaryColumn()
+  questionId: string;
 
   @Column()
-  questionId: string;
+  playerId: string;
 
   @Column()
   answerStatus: AnswerStatuses
@@ -22,7 +23,8 @@ export class AnswerEntity {
   @JoinColumn({ name: 'questionId' })
   question: QuestionEntity;
 
-  // @ManyToOne(() => PlayerProgressEntity, (playerProgress) => playerProgress.answers,  { onDelete: 'CASCADE' })
-  // playerProgress: PlayerProgressEntity;
+  @ManyToOne(() => PlayerProgressEntity, (playerProgress) => playerProgress.answers,  { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'playerId' })
+  playerProgress: PlayerProgressEntity;
 
 }
