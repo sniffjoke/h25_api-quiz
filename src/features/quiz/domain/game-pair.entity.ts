@@ -22,12 +22,12 @@ export class GamePairEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pairCreatedDate: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: null })
   startGameDate: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: null })
   finishGameDate: string;
 
-  @OneToMany(() => QuestionEntity, (question) => question.gamePair, { cascade: true })
+  @Column(() => QuestionEntity)
   questions: QuestionEntity[];
 }

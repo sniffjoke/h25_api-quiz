@@ -1,4 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn, UpdateDateColumn,
+} from 'typeorm';
 import { GamePairEntity } from './game-pair.entity';
 import { AnswerEntity } from './answer.entity';
 
@@ -11,13 +20,29 @@ export class QuestionEntity {
   @Column()
   body: string
 
-  @Column()
-  pairId: string;
+  // @Column(() => AnswerEntity)
+  // correctAnswers: AnswerEntity[];
 
-  @OneToOne(() => AnswerEntity, (answer) => answer.question, {cascade: true})
-  answer: AnswerEntity;
+  @Column('text', {array: true})
+  correctAnswers: string[];
 
-  @ManyToOne(() => GamePairEntity, (gamePair) => gamePair.questions, {onDelete: 'CASCADE'})
-  @JoinColumn({ name: 'pairId' })
-  gamePair: GamePairEntity;
+  @Column({default: false})
+  published: boolean
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: string;
+
+  @Column({ type: 'timestamp', default: null })
+  updatedAt: string;
+
+  // @OneToMany(() => AnswerEntity, (answer) => answer.question, {cascade: true})
+  // answer: AnswerEntity;
+
 }
+
+// @Column()
+// pairId: string;
+
+// @ManyToOne(() => GamePairEntity, (gamePair) => gamePair.questions, {onDelete: 'CASCADE'})
+// @JoinColumn({ name: 'pairId' })
+// gamePair: GamePairEntity;

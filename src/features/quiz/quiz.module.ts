@@ -10,13 +10,14 @@ import { QuestionEntity } from './domain/question.entity';
 import { QuizQueryRepositoryTO } from './infrastructure/quiz.query-repository.to';
 import { QuizRepositoryTO } from './infrastructure/quiz.repository.to';
 import { UsersModule } from '../users/users.module';
+import { QuestionsController } from './api/questions.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity, GamePairEntity, PlayerProgressEntity, QuestionEntity, AnswerEntity]),
     UsersModule
   ],
-  controllers: [QuizController],
+  controllers: [QuizController, QuestionsController],
   providers: [
     QuizQueryRepositoryTO,
     QuizRepositoryTO,

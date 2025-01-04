@@ -6,12 +6,17 @@ import { PlayerProgressEntity } from './player-progress.entity';
 
 @Entity('answer')
 export class AnswerEntity {
+  @PrimaryGeneratedColumn()
+  id: string;
 
-  @PrimaryColumn()
+  @Column()
   questionId: string;
 
   @Column()
   playerId: string;
+
+  @Column()
+  body: string
 
   @Column()
   answerStatus: AnswerStatuses
@@ -19,7 +24,7 @@ export class AnswerEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   addedAt: string
 
-  @OneToOne(() => QuestionEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => QuestionEntity, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'questionId' })
   question: QuestionEntity;
 

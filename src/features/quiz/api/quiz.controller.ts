@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/
 import { QuizService } from '../application/quiz.service';
 import { GamePairViewModel } from './models/output/game-pair.view.model';
 import {Request} from 'express';
+import { CreateAnswerInputModel } from './models/input/create-answer.input.model';
 
 @Controller('pair-game-quiz')
 export class QuizController {
@@ -13,8 +14,8 @@ export class QuizController {
   }
 
   @Get('pairs/:id')
-  getGameById(@Param('id') id: string) {
-    return this.quizService.findGameById(+id);
+  async getGameById(@Param('id') id: string) {
+    return await this.quizService.findGameById(id);
   }
 
   @Post('pairs/connection')
@@ -23,8 +24,8 @@ export class QuizController {
   }
 
   @Post('pairs/my-current/answers')
-  sendAnswer(@Body() createQuizDto: GamePairViewModel) {
-    return this.quizService.sendAnswer(createQuizDto);
+  sendAnswer(@Body() answerData: CreateAnswerInputModel, @Req() req: Request) {
+    return this.quizService.sendAnswer(answerData, req.headers.authorization as string);
   }
 
 }

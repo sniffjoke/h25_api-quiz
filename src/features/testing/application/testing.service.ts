@@ -14,6 +14,10 @@ export class TestingService {
 
     return await this.dataSource.query(
       `
+              TRUNCATE TABLE answer RESTART IDENTITY CASCADE;
+              TRUNCATE TABLE question RESTART IDENTITY CASCADE;
+              TRUNCATE TABLE "playerProgress" RESTART IDENTITY CASCADE;
+              TRUNCATE TABLE "gamePair" RESTART IDENTITY CASCADE;
               TRUNCATE TABLE likes RESTART IDENTITY CASCADE;
               TRUNCATE TABLE comments RESTART IDENTITY CASCADE;
               TRUNCATE TABLE posts RESTART IDENTITY CASCADE;
@@ -22,12 +26,6 @@ export class TestingService {
               TRUNCATE TABLE blogs RESTART IDENTITY CASCADE;
               TRUNCATE TABLE users RESTART IDENTITY CASCADE;
       `
-      // TRUNCATE TABLE devices RESTART IDENTITY CASCADE;
-      // TRUNCATE TABLE tokens RESTART IDENTITY CASCADE;
-      // TRUNCATE TABLE likes RESTART IDENTITY CASCADE;
-      // TRUNCATE TABLE comments RESTART IDENTITY CASCADE;
-      // TRUNCATE TABLE posts RESTART IDENTITY CASCADE;
-      // TRUNCATE TABLE blogs RESTART IDENTITY CASCADE;
       ,
     );
   }
