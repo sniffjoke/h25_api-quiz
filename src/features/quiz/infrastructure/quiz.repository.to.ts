@@ -153,13 +153,13 @@ export class QuizRepositoryTO {
     newAnswer.question = findedGame.questions![findedGame.questions!.length - 5 + player.answers.length];
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
-    player.answers.push(newAnswer);
     if (newAnswer.question.correctAnswers.includes(newAnswer.body)) {
       player.score++
       newAnswer.answerStatus = AnswerStatuses.Correct;
     } else {
       newAnswer.answerStatus = AnswerStatuses.Incorrect;
     }
+    player.answers.push(newAnswer);
     if (findedGame.firstPlayerProgress.userId === user.id) {
       findedGame.firstPlayerProgress = player;
     } else findedGame.secondPlayerProgress = player;
@@ -168,6 +168,7 @@ export class QuizRepositoryTO {
     // console.log('answerExists: ', newAnswer.question.correctAnswers.includes(player.answers[player.answers.length - 1].body))
     if (saveAnswer.firstPlayerProgress.answers.length === 5 && saveAnswer.secondPlayerProgress.answers.length === 5) {
       findedGame.status = GameStatuses.Finished;
+      findedGame.finishGameDate = new Date(Date.now()).toISOString()
       saveAnswer = await this.gRepository.save(findedGame);
     }
     if (findedGame.firstPlayerProgress.userId === user.id) {
