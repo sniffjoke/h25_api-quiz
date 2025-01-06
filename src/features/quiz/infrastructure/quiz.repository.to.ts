@@ -9,8 +9,6 @@ import { UserEntity } from '../../users/domain/user.entity';
 import { AnswerEntity } from '../domain/answer.entity';
 import { CreateQuestionInputModel } from '../api/models/input/create-question.input.model';
 import { UpdatePublishStatusInputModel } from '../api/models/input/update-publish-status.input.model';
-import { isInt } from 'class-validator';
-import { id } from 'date-fns/locale';
 
 
 @Injectable()
@@ -57,10 +55,11 @@ export class QuizRepositoryTO {
       // const questions = await this.questionRepository.find();
       const questions = await this.questionRepository
         .createQueryBuilder('q')
-        .orderBy('RANDOM()')
-        .addOrderBy('q.id', 'ASC')
+        // .orderBy('RANDOM()')
+        // .addOrderBy('q.id', 'ASC')
         .limit(5)
         .getMany();
+      console.log('questionBef: ', questions);
       gamePair.status = GameStatuses.Active;
       gamePair.startGameDate = new Date(Date.now()).toISOString();
       gamePair.questions = questions
@@ -157,17 +156,18 @@ export class QuizRepositoryTO {
     const newAnswer = new AnswerEntity();
     newAnswer.answerStatus = AnswerStatuses.Correct;
     newAnswer.question = findedGame.questions![findedGame.questions!.length - 1 - player.answers.length];
+    console.log('questions: ', newAnswer.question);
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     player.answers.push(newAnswer);
-    const question = await this.questionRepository.findOne({
-      where: { id: newAnswer.questionId },
-    })
+    // const question = await this.questionRepository.findOne({
+    //   where: { id: newAnswer.questionId },
+    // })
     // console.log('question: ', question);
     // console.log(question?.correctAnswers.includes(newAnswer.body));
-    if (question?.correctAnswers.includes(newAnswer.body)) {
-      player.score++
-    }
+    // if (question?.correctAnswers.includes(newAnswer.body)) {
+    //   player.score++
+    // }
     if (findedGame.firstPlayerProgress.userId === user.id) {
       findedGame.firstPlayerProgress = player;
     } else findedGame.secondPlayerProgress = player;
