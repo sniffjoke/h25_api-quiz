@@ -155,28 +155,16 @@ export class QuizRepositoryTO {
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     player.answers.push(newAnswer);
-    // const question = await this.questionRepository.findOne({
-    //   where: { id: newAnswer.questionId },
-    // })
-    // console.log('question: ', question);
-    // console.log(question?.correctAnswers.includes(newAnswer.body));
-    // if (question?.correctAnswers.includes(newAnswer.body)) {
-    //   player.score++
-    // }
+    if (newAnswer.question.correctAnswers.includes(newAnswer.body)) {
+      player.score++
+    }
     if (findedGame.firstPlayerProgress.userId === user.id) {
       findedGame.firstPlayerProgress = player;
     } else findedGame.secondPlayerProgress = player;
+
     let saveAnswer = await this.gRepository.save(findedGame);
-    // console.log(newAnswer.question?.correctAnswers.includes(newAnswer.body));
-    console.log('correctAnswers: ', newAnswer.question?.correctAnswers);
-    console.log('answer: ', player.answers[player.answers.length - 1].body);
-    // console.log('answerExists: ', newAnswer.question?.correctAnswers.includes(player.answers[player.answers.length - 1].body))
-    const checkAnswer: string =  `${player.answers[player.answers.length - 1].body}`.toLowerCase()
-    console.log('checkAnswer: ', checkAnswer);
-    console.log('index: ', newAnswer.question.correctAnswers.indexOf(checkAnswer))
-    // console.log(saveAnswer.questions![1]);
+    // console.log('answerExists: ', newAnswer.question.correctAnswers.includes(player.answers[player.answers.length - 1].body))
     if (saveAnswer.firstPlayerProgress.answers.length === 5 && saveAnswer.secondPlayerProgress.answers.length === 5) {
-      // throw new NotFoundException('Game is finished');
       findedGame.status = GameStatuses.Finished;
       saveAnswer = await this.gRepository.save(findedGame);
     }
