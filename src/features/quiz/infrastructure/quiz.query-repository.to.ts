@@ -123,7 +123,6 @@ export class QuizQueryRepositoryTO {
       startGameDate,
       finishGameDate,
     } = game;
-    console.log('answers: ', this.answersOutputMap(secondPlayerProgress.answers));
     return {
       id: id.toString(),
       firstPlayerProgress: {
