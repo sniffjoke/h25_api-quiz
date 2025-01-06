@@ -27,12 +27,14 @@ export class QuestionsController {
   }
 
   @Post('questions')
+  @UseGuards(BasicAuthGuard)
   async createNewQuestion(@Body() questionData: CreateQuestionInputModel) {
     const newQuestionId = await this.quizService.createNewQuestion(questionData);
     return await this.quizQueryRepository.questionOutput(newQuestionId)
   }
 
   @Get('questions')
+  @UseGuards(BasicAuthGuard)
   async getAllQuestionsWithQueryData(@Query() query: any) {
     return await this.quizQueryRepository.getAllQuestionsWithQuery(query);
   }
@@ -40,7 +42,7 @@ export class QuestionsController {
   @Put('questions/:id')
   @UseGuards(BasicAuthGuard)
   @HttpCode(204)
-  async updateQuestion(@Body() questionData: Partial<CreateQuestionInputModel>, @Param('id') id: string) {
+  async updateQuestion(@Body() questionData: CreateQuestionInputModel, @Param('id') id: string) {
     return await this.quizService.updateQuestionById(id, questionData);
   }
 

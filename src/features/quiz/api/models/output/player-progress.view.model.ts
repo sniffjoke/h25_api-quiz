@@ -3,7 +3,7 @@ import { AnswerViewModel } from './answer.view.model';
 
 
 export class PlayerProgressViewModel {
-  answers: AnswerViewModel[]
+  answers: AnswerViewModel[] | []
   player: PlayerViewModel
   score: number
 }

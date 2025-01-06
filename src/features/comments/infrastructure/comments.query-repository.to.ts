@@ -30,7 +30,6 @@ export class CommentsQueryRepositoryTO {
         if (!findedPost) {
             throw new NotFoundException(`Post with id ${postId} not found`);
         }
-        console.log('1: ', `"${generateQuery.sortBy}"`, generateQuery.sortDirection.toUpperCase());
         const comments = await this.cRepository
           .createQueryBuilder('c')
           .innerJoinAndSelect('c.likesInfo', 'l')

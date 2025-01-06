@@ -6,3 +6,9 @@ export class AnswerViewModel {
   answerStatus: AnswerStatuses;
   addedAt: string
 }
+
+export class AnswerViewModelForPairs {
+  questionId: string;
+  answerStatus: AnswerStatuses;
+  addedAt: string
+}

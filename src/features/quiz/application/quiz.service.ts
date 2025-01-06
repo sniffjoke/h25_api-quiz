@@ -18,15 +18,17 @@ export class QuizService {
 
   }
 
-  async getCurrentUnfGame() {
-    return await this.quizQueryRepository.getGame();
+  async getCurrentUnfGame(bearerHeader: string) {
+    const user = await this.usersService.getUserByAuthToken(bearerHeader)
+    return await this.quizRepository.getGame(user);
   }
 
-  async findGameById(id: string) {
-    return await this.quizRepository.findGame(id);
+  async findGameById(id: number, bearerHeader: string) {
+    const user = await this.usersService.getUserByAuthToken(bearerHeader);
+    return await this.quizRepository.findGame(id, user);
   }
 
-  async createOrConnect(bearerHeader: string) {
+  async createOrConnect(bearerHeader: string): Promise<number> {
     const user = await this.usersService.getUserByAuthToken(bearerHeader);
     return await this.quizRepository.findOrCreateConnection(user);
   }

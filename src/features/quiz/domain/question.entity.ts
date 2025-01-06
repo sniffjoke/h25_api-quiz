@@ -2,7 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  JoinColumn, ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -20,8 +20,6 @@ export class QuestionEntity {
   @Column()
   body: string
 
-  // @Column(() => AnswerEntity)
-  // correctAnswers: AnswerEntity[];
 
   @Column('text', {array: true})
   correctAnswers: string[];
@@ -29,20 +27,14 @@ export class QuestionEntity {
   @Column({default: false})
   published: boolean
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: string;
 
-  @Column({ type: 'timestamp', default: null })
+  @Column({ type: 'timestamp', nullable: true, default: null })
   updatedAt: string;
 
-  // @OneToMany(() => AnswerEntity, (answer) => answer.question, {cascade: true})
-  // answer: AnswerEntity;
+  @ManyToMany(() => GamePairEntity, (gamePair) => gamePair.questions)
+  gamePairs: GamePairEntity[];
 
 }
 
-// @Column()
-// pairId: string;
-
-// @ManyToOne(() => GamePairEntity, (gamePair) => gamePair.questions, {onDelete: 'CASCADE'})
-// @JoinColumn({ name: 'pairId' })
-// gamePair: GamePairEntity;

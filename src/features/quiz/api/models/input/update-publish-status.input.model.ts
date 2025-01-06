@@ -1,3 +1,4 @@
+import { IsBoolean } from 'class-validator';
 
 
 export enum PublishedStatuses {
@@ -7,5 +8,6 @@ export enum PublishedStatuses {
 }
 
 export class UpdatePublishStatusInputModel {
-  published: boolean
+  @IsBoolean()
+  published: boolean;
 }

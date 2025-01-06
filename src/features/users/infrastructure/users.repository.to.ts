@@ -28,7 +28,6 @@ export class UsersRepositoryTO {
     emailConfirmation.isConfirm = emailConfirmationDto.isConfirm;
 
     await this.uRepository.manager.save(emailConfirmation);
-
     return newUser;
   }
 
