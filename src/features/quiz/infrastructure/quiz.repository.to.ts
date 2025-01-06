@@ -59,7 +59,6 @@ export class QuizRepositoryTO {
         // .addOrderBy('q.id', 'ASC')
         .limit(5)
         .getMany();
-      console.log('questionBef: ', questions);
       gamePair.status = GameStatuses.Active;
       gamePair.startGameDate = new Date(Date.now()).toISOString();
       gamePair.questions = questions
@@ -156,7 +155,6 @@ export class QuizRepositoryTO {
     const newAnswer = new AnswerEntity();
     newAnswer.answerStatus = AnswerStatuses.Correct;
     newAnswer.question = findedGame.questions![findedGame.questions!.length - 1 - player.answers.length];
-    console.log('questions: ', newAnswer.question);
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     player.answers.push(newAnswer);

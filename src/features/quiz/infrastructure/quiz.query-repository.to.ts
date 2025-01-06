@@ -123,6 +123,7 @@ export class QuizQueryRepositoryTO {
       startGameDate,
       finishGameDate,
     } = game;
+    console.log('answers: ', this.answersOutputMap(secondPlayerProgress.answers));
     return {
       id: id.toString(),
       firstPlayerProgress: {
@@ -181,7 +182,7 @@ export class QuizQueryRepositoryTO {
 
   answersOutputMap(answers: AnswerEntity[]): AnswerViewModelForPairs[] {
     return answers.map(answer => ({
-      questionId: answer.id.toString(),
+      questionId: answer.questionId.toString(),
       answerStatus: answer.answerStatus,
       addedAt: answer.addedAt,
     }));
