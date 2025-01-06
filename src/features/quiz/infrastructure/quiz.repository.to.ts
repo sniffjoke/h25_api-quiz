@@ -149,12 +149,9 @@ export class QuizRepositoryTO {
     if (player.answers.length >= 5) {
       throw new ForbiddenException('No more answers');
     }
-    // console.log(findedGame.questions!.length);
-    // console.log(player.answers.length)
-    // console.log(findedGame.questions!.length - 1 - player.answers.length);
     const newAnswer = new AnswerEntity();
     newAnswer.answerStatus = AnswerStatuses.Correct;
-    newAnswer.question = findedGame.questions![findedGame.questions!.length - 1 - player.answers.length];
+    newAnswer.question = findedGame.questions![findedGame.questions!.length - 5 + player.answers.length];
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     player.answers.push(newAnswer);
@@ -170,6 +167,13 @@ export class QuizRepositoryTO {
       findedGame.firstPlayerProgress = player;
     } else findedGame.secondPlayerProgress = player;
     let saveAnswer = await this.gRepository.save(findedGame);
+    // console.log(newAnswer.question?.correctAnswers.includes(newAnswer.body));
+    console.log('correctAnswers: ', newAnswer.question?.correctAnswers);
+    console.log('answer: ', player.answers[player.answers.length - 1].body);
+    // console.log('answerExists: ', newAnswer.question?.correctAnswers.includes(player.answers[player.answers.length - 1].body))
+    const checkAnswer: string =  `${player.answers[player.answers.length - 1].body}`.toLowerCase()
+    console.log('checkAnswer: ', checkAnswer);
+    console.log('index: ', newAnswer.question.correctAnswers.indexOf(checkAnswer))
     // console.log(saveAnswer.questions![1]);
     if (saveAnswer.firstPlayerProgress.answers.length === 5 && saveAnswer.secondPlayerProgress.answers.length === 5) {
       // throw new NotFoundException('Game is finished');
