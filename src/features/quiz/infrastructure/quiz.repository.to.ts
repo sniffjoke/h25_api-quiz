@@ -150,13 +150,15 @@ export class QuizRepositoryTO {
       throw new ForbiddenException('No more answers');
     }
     const newAnswer = new AnswerEntity();
-    newAnswer.answerStatus = AnswerStatuses.Correct;
     newAnswer.question = findedGame.questions![findedGame.questions!.length - 5 + player.answers.length];
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     player.answers.push(newAnswer);
     if (newAnswer.question.correctAnswers.includes(newAnswer.body)) {
       player.score++
+      newAnswer.answerStatus = AnswerStatuses.Correct;
+    } else {
+      newAnswer.answerStatus = AnswerStatuses.Incorrect;
     }
     if (findedGame.firstPlayerProgress.userId === user.id) {
       findedGame.firstPlayerProgress = player;
