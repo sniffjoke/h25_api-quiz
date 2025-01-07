@@ -38,7 +38,7 @@ export class QuizRepositoryTO {
     if (!gamePair) {
       const newGame = new GamePairEntity();
       newGame.status = GameStatuses.PendingSecondPlayer;
-      newGame.questions = null
+      newGame.questions = null;
 
       const firstPlayerProgress = new PlayerProgressEntity();
       firstPlayerProgress.userId = user.id;
@@ -61,7 +61,7 @@ export class QuizRepositoryTO {
         .getMany();
       gamePair.status = GameStatuses.Active;
       gamePair.startGameDate = new Date(Date.now()).toISOString();
-      gamePair.questions = questions
+      gamePair.questions = questions;
       const secondPlayerProgress = new PlayerProgressEntity();
       secondPlayerProgress.userId = user.id;
       secondPlayerProgress.user = user;
@@ -85,20 +85,9 @@ export class QuizRepositoryTO {
         'secondPlayerProgress.user',
         'firstPlayerProgress.answers',
         'secondPlayerProgress.answers',
-        'questions'
+        'questions',
       ],
     });
-
-    // const findedGame = await this.gRepository
-    //   .createQueryBuilder('g')
-    //   .innerJoinAndSelect('g.firstPlayerProgress', 'f')
-    //   .leftJoinAndSelect('g.secondPlayerProgress', 's')
-    //
-    //   // .where('f.userId = :userId', { userId: user.id })
-    //   // .orWhere('s.userId = :userId', { userId: user.id })
-    //   // .andWhere('g.status = :status', { status: GameStatuses.Active })
-    //   .orWhere('g.status = :status', { status: GameStatuses.PendingSecondPlayer })
-    //   .getOne();
     if (!findedGame) {
       throw new NotFoundException('No game');
     }
@@ -117,7 +106,7 @@ export class QuizRepositoryTO {
         'secondPlayerProgress.user',
         'firstPlayerProgress.answers',
         'secondPlayerProgress.answers',
-        'questions'
+        'questions',
       ],
     });
     if (!findedGame) {
@@ -154,7 +143,7 @@ export class QuizRepositoryTO {
     newAnswer.playerId = player.user.id;
     newAnswer.body = answer;
     if (newAnswer.question.correctAnswers.includes(newAnswer.body)) {
-      player.score++
+      player.score++;
       newAnswer.answerStatus = AnswerStatuses.Correct;
     } else {
       newAnswer.answerStatus = AnswerStatuses.Incorrect;
@@ -168,7 +157,31 @@ export class QuizRepositoryTO {
     // console.log('answerExists: ', newAnswer.question.correctAnswers.includes(player.answers[player.answers.length - 1].body))
     if (saveAnswer.firstPlayerProgress.answers.length === 5 && saveAnswer.secondPlayerProgress.answers.length === 5) {
       findedGame.status = GameStatuses.Finished;
-      findedGame.finishGameDate = new Date(Date.now()).toISOString()
+      findedGame.finishGameDate = new Date(Date.now()).toISOString();
+      const hasCorrectAnswerFirstPlayer = saveAnswer.firstPlayerProgress.answers.some(item => item.answerStatus === 'Correct');
+      const hasCorrectAnswerSecondPlayer = saveAnswer.secondPlayerProgress.answers.some(item => item.answerStatus === 'Correct');
+      if (
+        Date.parse(saveAnswer.firstPlayerProgress.answers[
+        saveAnswer.firstPlayerProgress.answers.length - 1
+          ].addedAt)
+        <
+        Date.parse(saveAnswer.secondPlayerProgress.answers[
+        saveAnswer.secondPlayerProgress.answers.length - 1
+          ].addedAt) && hasCorrectAnswerFirstPlayer
+      ) {
+        findedGame.firstPlayerProgress.score++;
+      }
+      if (
+        Date.parse(saveAnswer.secondPlayerProgress.answers[
+        saveAnswer.secondPlayerProgress.answers.length - 1
+          ].addedAt)
+        <
+        Date.parse(saveAnswer.firstPlayerProgress.answers[
+        saveAnswer.firstPlayerProgress.answers.length - 1
+          ].addedAt) && hasCorrectAnswerSecondPlayer
+      ) {
+        findedGame.secondPlayerProgress.score++;
+      }
       saveAnswer = await this.gRepository.save(findedGame);
     }
     if (findedGame.firstPlayerProgress.userId === user.id) {
