@@ -149,12 +149,11 @@ export class QuizRepositoryTO {
       newAnswer.answerStatus = AnswerStatuses.Incorrect;
     }
     player.answers.push(newAnswer);
-    if (findedGame.firstPlayerProgress.userId === user.id) {
-      findedGame.firstPlayerProgress = player;
-    } else findedGame.secondPlayerProgress = player;
+    // if (findedGame.firstPlayerProgress.userId === user.id) {
+    //   findedGame.firstPlayerProgress = player;
+    // } else findedGame.secondPlayerProgress = player;
 
     let saveAnswer = await this.gRepository.save(findedGame);
-    // console.log('answerExists: ', newAnswer.question.correctAnswers.includes(player.answers[player.answers.length - 1].body))
     if (saveAnswer.firstPlayerProgress.answers.length === 5 && saveAnswer.secondPlayerProgress.answers.length === 5) {
       findedGame.status = GameStatuses.Finished;
       findedGame.finishGameDate = new Date(Date.now()).toISOString();
